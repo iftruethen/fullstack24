@@ -3,11 +3,12 @@ const Course = (props) => {
     <>
       <Header course={props.course.name} />
       {props.course.parts.map(alkio => <p key={alkio.id}>{alkio.name} {alkio.exercises}</p>)}
+      <Total sum={props.course.parts.reduce((sum, part) => sum+part.exercises ,0)} />
     </>
   )
 }
 const Header = ({ course }) => <h1>{course}</h1>
-const Total = ({ sum }) => <p>Number of exercises {sum}</p>
+const Total = ({ sum }) => <p><b>total of exercises {sum}</b></p>
 const Part = ({ part }) => 
   <p>
     {part.name} {part.exercises}
