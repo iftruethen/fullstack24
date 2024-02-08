@@ -3,7 +3,7 @@ import Course from "./components/Course"
 const Courses = (props) => {
   return (
     <>
-      { props.courses.map( (alkio,key) => <Course key={key} course={alkio} /> ) }
+      { props.courses.map( (alkio) => <Course key={alkio.id} course={alkio} /> ) }
     </>
   )
 }
