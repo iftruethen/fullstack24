@@ -1,3 +1,11 @@
+const Course = (props) => {
+  return (
+    <>
+      <Header course={props.course.name} />
+      {props.course.parts.map(alkio => <p key={alkio.id}>{alkio.name} {alkio.exercises}</p>)}
+    </>
+  )
+}
 const Header = ({ course }) => <h1>{course}</h1>
 const Total = ({ sum }) => <p>Number of exercises {sum}</p>
 const Part = ({ part }) => 
@@ -19,27 +27,31 @@ const Content = ({ parts }) =>
   </>
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const parts = [
-    {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
-    }
-  ]
+  const course = {
+    name: 'Half Stack application development',
+    id: 1,
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10,
+        id: 1
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7,
+        id: 2
+      },
+      {
+        name: 'State of a component',
+        exercises: 14,
+        id: 3
+      }
+    ]
+  }
 
   return (
     <div>
-      <Header course={course} />
-      <Content parts={parts} />
-      <Total sum={parts[0].exercises + parts[1].exercises + parts[2].exercises} />
+      <Course course={course} />
     </div>
   )
 }
