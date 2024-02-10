@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -15,7 +18,7 @@ const App = () => {
     event.preventDefault()
     const result = persons.find(alkio => alkio.name === newName)
     if (result !== undefined) {
-      alert(`${newName} is already added to phonebook`)
+      alert(`${newName} is already ahandleSearchWordChangedded to phonebook`)
       return null
     }
     const personToAdd = {name: newName, phonenumber: newPhonenumber}
@@ -23,31 +26,20 @@ const App = () => {
     setNewName('')
     setNewPhonenumber('')
   }
-  const handleNoteChange = (event) => setNewName(event.target.value)
+  const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewPhonenumber(event.target.value)
-  const handleSearchWordChange = (event) => {
-    setSearchWord(event.target.value)
-  }
-  const namesToShow = searchWord==='' ? persons : persons.filter(person => person.name.toLowerCase().includes(searchWord.toLowerCase()))
+  const handleSearchWordChange = (event) => setSearchWord(event.target.value)
+  const namesToShow = searchWord ==='' ? persons : persons.filter(person => person.name.toLowerCase().includes(searchWord.toLowerCase()))
 
   return (
     <div>
       <h2>Phonebook</h2>
-      filter shown with<input value={searchWord} onChange={handleSearchWordChange} />
+      <Filter searchWord={searchWord} handleSearchWordChange={handleSearchWordChange} />
       <h2>add a new</h2>
-      <form onSubmit={handleSubmit} >
-        <div>
-          name: <input value={newName} onChange={handleNoteChange} />
-        </div>
-        <div>
-          number: <input value={newPhonenumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm handleSubmit={handleSubmit} newName={newName} handleNameChange={handleNameChange}
+      newPhonenumber={newPhonenumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      {namesToShow.map(person => <p key={person.name}>{person.name} {person.phonenumber}</p>)}
+      <Persons namesToShow={namesToShow} />
     </div>
   )
 
