@@ -18,7 +18,7 @@ const App = () => {
     event.preventDefault()
     const result = persons.find(alkio => alkio.name === newName)
     if (result !== undefined) {
-      alert(`${newName} is already ahandleSearchWordChangedded to phonebook`)
+      alert(`${newName} is already added to phonebook`)
       return null
     }
     const personToAdd = {name: newName, phonenumber: newPhonenumber}
