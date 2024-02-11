@@ -1,17 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import axios from 'axios'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', phonenumber: '040-123456' },
-    { name: 'Ada Lovelace', phonenumber: '39-44-5323523' },
-    { name: 'Dan Abramov', phonenumber: '12-43-234345' },
-    { name: 'Mary Poppendieck', phonenumber: '39-23-6423122' }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
-  const [newPhonenumber, setNewPhonenumber] = useState('')
+  const [newNumber, setNewNumber] = useState('')
   const [searchWord, setSearchWord] = useState('')
 
   const handleSubmit = (event) => {
@@ -21,15 +17,21 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
       return null
     }
-    const personToAdd = {name: newName, phonenumber: newPhonenumber}
+    const personToAdd = {name: newName, Number: newNumber}
     setPersons(persons.concat(personToAdd))
     setNewName('')
-    setNewPhonenumber('')
+    setNewNumber('')
   }
   const handleNameChange = (event) => setNewName(event.target.value)
-  const handleNumberChange = (event) => setNewPhonenumber(event.target.value)
+  const handleNumberChange = (event) => setNewNumber(event.target.value)
   const handleSearchWordChange = (event) => setSearchWord(event.target.value)
   const namesToShow = searchWord ==='' ? persons : persons.filter(person => person.name.toLowerCase().includes(searchWord.toLowerCase()))
+
+  useEffect(() => {
+    axios
+    .get('http://localhost:3001/persons')
+    .then((data) => setPersons(data.data))
+  },[])
 
   return (
     <div>
@@ -37,7 +39,7 @@ const App = () => {
       <Filter searchWord={searchWord} handleSearchWordChange={handleSearchWordChange} />
       <h2>add a new</h2>
       <PersonForm handleSubmit={handleSubmit} newName={newName} handleNameChange={handleNameChange}
-      newPhonenumber={newPhonenumber} handleNumberChange={handleNumberChange} />
+      newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
       <Persons namesToShow={namesToShow} />
     </div>
