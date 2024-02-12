@@ -5,6 +5,7 @@ import Persons from './components/Persons'
 import axios from 'axios'
 
 const App = () => {
+  const baseUrl = "http://localhost:3001/persons"
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -17,8 +18,8 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
       return null
     }
-    const personToAdd = {name: newName, Number: newNumber}
-    setPersons(persons.concat(personToAdd))
+    const personToAdd = {name: newName, number: newNumber}
+    axios.post(baseUrl, personToAdd).then(response => setPersons(persons.concat(response.data)) )
     setNewName('')
     setNewNumber('')
   }
@@ -29,7 +30,7 @@ const App = () => {
 
   useEffect(() => {
     axios
-    .get('http://localhost:3001/persons')
+    .get(baseUrl)
     .then((data) => setPersons(data.data))
   },[])
 
