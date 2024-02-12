@@ -38,6 +38,14 @@ const App = () => {
         .then(response => setPersons(response))
   },[])
 
+  const handlePersonRemove = (id) => {
+    const personToRemove = persons.find(person => person.id === id)
+    if (window.confirm(`Delete ${personToRemove.name}?`)) {
+      personService.removePerson(personToRemove)
+      setPersons(persons.filter(person => person.id !== id))
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -46,7 +54,7 @@ const App = () => {
       <PersonForm handleSubmit={handleSubmit} newName={newName} handleNameChange={handleNameChange}
       newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons namesToShow={namesToShow} />
+      <Persons namesToShow={namesToShow} handlePersonRemove={handlePersonRemove} />
     </div>
   )
 

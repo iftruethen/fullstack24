@@ -17,7 +17,14 @@ const postPerson = (person) => {
     )
 }
 
+const removePerson = (person) => {
+    const personToRemove = person
+    const vastaus = axios
+        .delete(`${baseUrl}/${personToRemove.id}`)
+}
+
 export default {
     fetchPersons: fetchPersons,
-    postPerson: postPerson
+    postPerson: postPerson,
+    removePerson: removePerson
 }
