@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import axios from 'axios'
+import personService from "./services/persons"
 
 const App = () => {
   const baseUrl = "http://localhost:3001/persons"
@@ -19,19 +20,22 @@ const App = () => {
       return null
     }
     const personToAdd = {name: newName, number: newNumber}
-    axios.post(baseUrl, personToAdd).then(response => setPersons(persons.concat(response.data)) )
+    personService
+      .postPerson(personToAdd)
+      .then(response => setPersons(persons.concat(response)))
     setNewName('')
     setNewNumber('')
   }
+
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const handleSearchWordChange = (event) => setSearchWord(event.target.value)
   const namesToShow = searchWord ==='' ? persons : persons.filter(person => person.name.toLowerCase().includes(searchWord.toLowerCase()))
 
   useEffect(() => {
-    axios
-    .get(baseUrl)
-    .then((data) => setPersons(data.data))
+    personService
+      .fetchPersons()
+        .then(response => setPersons(response))
   },[])
 
   return (
