@@ -16,6 +16,15 @@ const App = () => {
     event.preventDefault()
     const result = persons.find(alkio => alkio.name === newName)
     if (result !== undefined) {
+      if (newNumber !== result.number) {
+        if (window.confirm(`Person ${result.name} is already added to phonebook, replace the old number with the new one?`)) {
+          personService
+            .updateNumber(result, newNumber)
+            .then(response => setPersons(persons.filter(person => person.id !== result.id).concat(response.data)))
+          return null
+        }
+        return null
+      }
       alert(`${newName} is already added to phonebook`)
       return null
     }

@@ -23,8 +23,16 @@ const removePerson = (person) => {
         .delete(`${baseUrl}/${personToRemove.id}`)
 }
 
+const updateNumber = (person, newNumber) => {
+    const newPerson = { ...person, number: newNumber }
+    const response1 = axios
+        .put(`${baseUrl}/${person.id}`, newPerson)
+    return response1
+}
+
 export default {
     fetchPersons: fetchPersons,
     postPerson: postPerson,
-    removePerson: removePerson
+    removePerson: removePerson,
+    updateNumber: updateNumber
 }
