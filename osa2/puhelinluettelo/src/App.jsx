@@ -29,6 +29,13 @@ const App = () => {
                 setNotification(null)
               }, 5000)
             })
+            .catch(response => {
+              setNotification(`Person ${result.name} already removed from the server`)
+              setTimeout(() => {
+                setNotification(null)
+              }, 5000)
+              setPersons(persons.filter(person => person.id !== result.id))
+            })
           return null
         }
         return null
