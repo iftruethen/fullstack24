@@ -1,22 +1,12 @@
 const Countries = (props) => {
     const countries = props.countryList
     const oneCountry = props.oneCountry
-    console.log(oneCountry)
+    const clickHandler = props.clickHandler
     const imageStyle = {
         width: 200,
     }
 
-    if (countries.length > 10) {
-        return <>Too many matches, give more specific search word</>
-    } else if (countries.length === 0) {
-        return <>No results with given search word, try something else</>
-    } else if (countries.length > 1) {
-        return (
-            <>
-                {countries.map(country => <div key={country}>{country}</div>)}
-            </>
-        )
-    } else if (oneCountry !== null) {
+    if (oneCountry !== null) {
         return (
             <>
                 <h1>{oneCountry.name.common}</h1>
@@ -32,6 +22,22 @@ const Countries = (props) => {
             </>
         )
     }
+
+    if (countries.length > 10) {
+        return <>Too many matches, give more specific search word</>
+    } else if (countries.length === 0) {
+        return <>No results with given search word, try something else</>
+    } else if (countries.length > 1) {
+        return (
+            <>
+                {countries.map(country => {
+                return (
+                    <div key={country}>{country} <button onClick={() => clickHandler(country)}>show</button></div>
+                )
+            })}
+            </>
+        )
+    } 
 }
 
 export default Countries

@@ -21,6 +21,11 @@ const App = () => {
     }
   }
 
+  const clickHandler = (country) => {
+    setSearchWord(country)
+    countryService.getOneCountry(country).then(response => setOneCountry(response.data))
+  }
+
   useEffect(() => {
     countryService
       .getCountryNames()
@@ -33,7 +38,7 @@ const App = () => {
   return (
     <>
       <Filter searchWord={searchWord} searchWordChange={searchWordChange} />
-      <Countries countryList={countriesToShow} oneCountry={oneCountry} />
+      <Countries countryList={countriesToShow} oneCountry={oneCountry} clickHandler={clickHandler} />
     </>
   )
 }
