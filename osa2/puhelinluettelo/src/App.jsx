@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchWord, setSearchWord] = useState('')
   const [notification, setNotification] = useState(null)
+  const [notificationType, setNotificationType] = useState('positive')
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -28,8 +29,10 @@ const App = () => {
               setTimeout(() => {
                 setNotification(null)
               }, 5000)
+              setNotificationType('positive')
             })
             .catch(response => {
+              setNotificationType('negative')
               setNotification(`Person ${result.name} already removed from the server`)
               setTimeout(() => {
                 setNotification(null)
@@ -81,7 +84,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification} />
+      <Notification message={notification} notificationType={notificationType} />
       <Filter searchWord={searchWord} handleSearchWordChange={handleSearchWordChange} />
       <h2>add a new</h2>
       <PersonForm handleSubmit={handleSubmit} newName={newName} handleNameChange={handleNameChange}
