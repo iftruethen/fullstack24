@@ -1,8 +1,11 @@
+import Weather from "./Weather"
+
 const Countries = (props) => {
     const countries = props.countryList
     const oneCountry = props.oneCountry
     const clickHandler = props.clickHandler
-    const imageStyle = {
+    const weather = props.weather
+    const flagStyle = {
         width: 200,
     }
 
@@ -18,7 +21,9 @@ const Countries = (props) => {
                         return <li key={language}>{language}</li>
                     })}
                 </ul>
-                <img style={imageStyle} src={oneCountry.flags.svg} />
+                <img style={flagStyle} src={oneCountry.flags.svg} />
+                <h2>Weather in {oneCountry.capital[0]}</h2>
+                {weather === null ? <></> : <Weather weather={weather} />}
             </>
         )
     }

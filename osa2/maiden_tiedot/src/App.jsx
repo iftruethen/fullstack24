@@ -8,6 +8,8 @@ const App = () => {
   const [countries, setCountries] = useState([])
   const [countriesToShow, setCountriesToShow] = useState([])
   const [oneCountry, setOneCountry] = useState(null)
+  const [weather, setWeather] = useState(null)
+  const api_key = import.meta.env.VITE_SOME_KEY
 
   const searchWordChange = (event) => {
     const searchTerm = event.target.value
@@ -26,6 +28,7 @@ const App = () => {
     countryService.getOneCountry(country).then(response => setOneCountry(response.data))
   }
 
+  // get countries
   useEffect(() => {
     countryService
       .getCountryNames()
@@ -35,10 +38,20 @@ const App = () => {
       })
   },[])
 
+  // get weather data
+  useEffect(() => {
+    if (oneCountry !== null) {
+    countryService.getWeather(oneCountry.capitalInfo.latlng,api_key,setWeather)
+    }
+  },[oneCountry]
+
+  )
+
   return (
     <>
       <Filter searchWord={searchWord} searchWordChange={searchWordChange} />
-      <Countries countryList={countriesToShow} oneCountry={oneCountry} clickHandler={clickHandler} />
+      <Countries countryList={countriesToShow} oneCountry={oneCountry} clickHandler={clickHandler} 
+        weather={weather} />
     </>
   )
 }
