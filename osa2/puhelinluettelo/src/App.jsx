@@ -16,8 +16,9 @@ const App = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     const result = persons.find(alkio => alkio.name === newName)
-    if (result !== undefined) {
-      if (newNumber !== result.number) {
+    if (result !== undefined) {  // program forks here if person already exists
+      if (newNumber !== result.number) {  // if existing name with new number is given
+        // verifies from the user if number is to be updated:
         if (window.confirm(`Person ${result.name} is already added to phonebook, replace the old number with the new one?`)) {
           personService
             .updateNumber(result, newNumber)
@@ -39,19 +40,29 @@ const App = () => {
               }, 5000)
               setPersons(persons.filter(person => person.id !== result.id))
             })
+          // to break the eventhandler and to not add the person again:
           return null
         }
+        // if user denies updating the number:
         return null
       }
       alert(`${newName} is already added to phonebook`)
       return null
     }
+    // perform post request after validations passed
     const personToAdd = {name: newName, number: newNumber}
     personService
       .postPerson(personToAdd)
       .then(response => {
         setPersons(persons.concat(response))
         setNotification(`Added ${response.name}`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
+      })
+      .catch(error => {
+        setNotificationType('negative')
+        setNotification(error.response.data)
         setTimeout(() => {
           setNotification(null)
         }, 5000)
