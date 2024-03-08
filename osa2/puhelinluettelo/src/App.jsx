@@ -65,6 +65,7 @@ const App = () => {
         setNotification(error.response.data)
         setTimeout(() => {
           setNotification(null)
+          setNotificationType('positive')
         }, 5000)
       })
     setNewName('')
